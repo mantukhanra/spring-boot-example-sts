@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:color="http://www.omg.org/spec/BPMN/non-normative/color/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1qlh8r7" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.14.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.2.0">
+  <bpmn:process id="demo-sevice-1" name="demo process" isExecutable="true">
+    <bpmn:extensionElements>
+      <zeebe:userTaskForm id="userTaskForm_3evqgoa">{
+  "components": [
+    {
+      "values": [
+        {
+          "label": "Equal to 100",
+          "value": "equal"
+        },
+        {
+          "label": "Less than 100",
+          "value": "less"
+        }
+      ],
+      "label": "User Action",
+      "type": "radio",
+      "layout": {
+        "row": "Row_0fq9xu0",
+        "columns": null
+      },
+      "id": "Field_0n7uu16",
+      "key": "isCustomCheck",
+      "defaultValue": "less"
+    },
+    {
+      "action": "submit",
+      "label": "Submit",
+      "type": "button",
+      "layout": {
+        "row": "Row_1rbhohv",
+        "columns": null
+      },
+      "id": "Field_0k878me",
+      "key": "field_1ipzuwe"
+    }
+  ],
+  "type": "default",
+  "id": "Form_14v88q5",
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.2.0",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.14.0"
+  },
+  "schemaVersion": 10
+}</zeebe:userTaskForm>
+    </bpmn:extensionElements>
+    <bpmn:startEvent id="StartEvent_1" name="Start">
+      <bpmn:outgoing>Flow_05q3xh3</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_05q3xh3" sourceRef="StartEvent_1" targetRef="Activity_1tzse1d" />
+    <bpmn:exclusiveGateway id="Gateway_0b6su0q">
+      <bpmn:incoming>Flow_1gfg1qb</bpmn:incoming>
+      <bpmn:outgoing>Flow_1q1to9n</bpmn:outgoing>
+      <bpmn:outgoing>Flow_13062ga</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_1gfg1qb" name="Check value" sourceRef="Activity_1tzse1d" targetRef="Gateway_0b6su0q" />
+    <bpmn:serviceTask id="Activity_1tzse1d" name="check value more than 100">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="checkValueService" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_05q3xh3</bpmn:incoming>
+      <bpmn:outgoing>Flow_1gfg1qb</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1q1to9n" name="Passed" sourceRef="Gateway_0b6su0q" targetRef="Activity_0460qf8">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=(isMoreThanHundred=true)</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:serviceTask id="Activity_0460qf8" name="aggregation">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="aggregateDecision" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1q1to9n</bpmn:incoming>
+      <bpmn:incoming>Flow_13w27ve</bpmn:incoming>
+      <bpmn:outgoing>Flow_0nypd2a</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_13062ga" name="Failed" sourceRef="Gateway_0b6su0q" targetRef="Activity_0gwto9j">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=(isMoreThanHundred=false)</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:userTask id="Activity_0gwto9j" name="user check value">
+      <bpmn:extensionElements>
+        <zeebe:formDefinition formKey="camunda-forms:bpmn:userTaskForm_3evqgoa" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_13062ga</bpmn:incoming>
+      <bpmn:outgoing>Flow_13w27ve</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_13w27ve" name="Actioned" sourceRef="Activity_0gwto9j" targetRef="Activity_0460qf8" />
+    <bpmn:endEvent id="Event_1p55nwz" name="End">
+      <bpmn:incoming>Flow_0nypd2a</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0nypd2a" sourceRef="Activity_0460qf8" targetRef="Event_1p55nwz" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="demo-sevice-1">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1" bioc:stroke="#5b176d" bioc:fill="#e1bee7" color:background-color="#e1bee7" color:border-color="#5b176d">
+        <dc:Bounds x="179" y="99" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="185" y="142" width="24" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0b6su0q_di" bpmnElement="Gateway_0b6su0q" isMarkerVisible="true" bioc:stroke="#831311" bioc:fill="#ffcdd2" color:background-color="#ffcdd2" color:border-color="#831311">
+        <dc:Bounds x="445" y="92" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1dyry8o_di" bpmnElement="Activity_1tzse1d" bioc:stroke="#6b3c00" bioc:fill="#ffe0b2" color:background-color="#ffe0b2" color:border-color="#6b3c00">
+        <dc:Bounds x="270" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0102aj9_di" bpmnElement="Activity_0460qf8" bioc:stroke="#6b3c00" bioc:fill="#ffe0b2" color:background-color="#ffe0b2" color:border-color="#6b3c00">
+        <dc:Bounds x="560" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0shjt0l_di" bpmnElement="Activity_0gwto9j" bioc:stroke="#0d4372" bioc:fill="#bbdefb" color:background-color="#bbdefb" color:border-color="#0d4372">
+        <dc:Bounds x="560" y="230" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1p55nwz_di" bpmnElement="Event_1p55nwz" bioc:stroke="#205022" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#205022">
+        <dc:Bounds x="762" y="99" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="770" y="142" width="20" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_05q3xh3_di" bpmnElement="Flow_05q3xh3">
+        <di:waypoint x="215" y="117" />
+        <di:waypoint x="270" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1gfg1qb_di" bpmnElement="Flow_1gfg1qb">
+        <di:waypoint x="370" y="117" />
+        <di:waypoint x="445" y="117" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="378" y="99" width="62" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1q1to9n_di" bpmnElement="Flow_1q1to9n">
+        <di:waypoint x="495" y="117" />
+        <di:waypoint x="560" y="117" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="506" y="99" width="37" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_13062ga_di" bpmnElement="Flow_13062ga">
+        <di:waypoint x="470" y="142" />
+        <di:waypoint x="470" y="270" />
+        <di:waypoint x="560" y="270" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="475" y="205" width="30" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_13w27ve_di" bpmnElement="Flow_13w27ve">
+        <di:waypoint x="610" y="230" />
+        <di:waypoint x="610" y="157" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="618" y="197" width="43" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0nypd2a_di" bpmnElement="Flow_0nypd2a">
+        <di:waypoint x="660" y="117" />
+        <di:waypoint x="762" y="117" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

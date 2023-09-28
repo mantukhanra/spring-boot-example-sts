@@ -1,0 +1,45 @@
+{
+  "components": [
+    {
+      "values": [
+        {
+          "label": "Equal to 100",
+          "value": "equal"
+        },
+        {
+          "label": "Less than 100",
+          "value": "less"
+        }
+      ],
+      "label": "User Action",
+      "type": "radio",
+      "layout": {
+        "row": "Row_0fq9xu0",
+        "columns": null
+      },
+      "id": "Field_0n7uu16",
+      "key": "field_0qk5tyi",
+      "defaultValue": "less"
+    },
+    {
+      "action": "submit",
+      "label": "Submit",
+      "type": "button",
+      "layout": {
+        "row": "Row_1rbhohv",
+        "columns": null
+      },
+      "id": "Field_0k878me",
+      "key": "field_1ipzuwe"
+    }
+  ],
+  "type": "default",
+  "id": "Form_14v88q5",
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.2.0",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.14.0"
+  },
+  "schemaVersion": 10
+}
